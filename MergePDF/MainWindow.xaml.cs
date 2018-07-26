@@ -74,6 +74,8 @@ namespace MergePDF
                     SetButtonsEnabled(false);
                     IProgress<double> progress = new Progress<double>(percent => { pbStatus.Value = percent; });
                     await Task.Run(() => ProcessFiles(dlg.FileName, progress));
+
+                    MessageBox.Show(Properties.Resources.MergeCompletedMessage, Properties.Resources.MergeCompletedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             finally

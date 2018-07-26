@@ -9,6 +9,7 @@
         Title="{x:Static p:Resources.Title}" Height="400" Width="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <local:StatusConverter x:Key="statusConverter" />
+        <local:IsEnabledConverter x:Key="enabledConverter" />
     </Window.Resources>
     <DockPanel Margin="5">
         <Grid DockPanel.Dock="Bottom" Margin="0,5">
@@ -26,8 +27,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Name="btnAdd" Content="{x:Static p:Resources.AddButton}" Click="AddDocuments" />
-            <Button Grid.Column="1" Name="btnRemove" Content="{x:Static p:Resources.RemoveButton}" Click="RemoveDocuments" IsEnabled="{Binding ElementName=lstDocuments, Path=SelectedItems.Count}"/>
-            <Button Grid.Column="2" Name="btnMerge" Content="{x:Static p:Resources.MergeButton}" Click="PerformMerge" IsEnabled="{Binding ElementName=lstDocuments, Path=Items.Count}" />
+            <Button Grid.Column="1" Name="btnRemove" Content="{x:Static p:Resources.RemoveButton}" Click="RemoveDocuments" IsEnabled="{Binding ElementName=lstDocuments, Path=SelectedItems.Count}" />
+            <Button Grid.Column="2" Name="btnMerge" Content="{x:Static p:Resources.MergeButton}" Click="PerformMerge" IsEnabled="{Binding ElementName=lstDocuments, Path=Items.Count, Converter={StaticResource enabledConverter}}" />
             <Button Grid.Column="3" Name="btnImport" Content="{x:Static p:Resources.ImportButton}" Click="ImportFileList" />
             <ProgressBar Grid.Column="4" Name="pbStatus" Minimum="0" Maximum="1" Height="15" />
         </Grid>

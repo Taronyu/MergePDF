@@ -153,6 +153,12 @@
   <data name="MergeButton" xml:space="preserve">
     <value>Merge</value>
   </data>
+  <data name="MergeCompletedMessage" xml:space="preserve">
+    <value>Merge completed.</value>
+  </data>
+  <data name="MergeCompletedTitle" xml:space="preserve">
+    <value>Merge</value>
+  </data>
   <data name="MergeDialogFilter" xml:space="preserve">
     <value>PDF documents (*.pdf)|*.pdf</value>
   </data>

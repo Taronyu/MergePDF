@@ -169,6 +169,24 @@ namespace MergePDF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Merge completed..
+        /// </summary>
+        public static string MergeCompletedMessage {
+            get {
+                return ResourceManager.GetString("MergeCompletedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Merge.
+        /// </summary>
+        public static string MergeCompletedTitle {
+            get {
+                return ResourceManager.GetString("MergeCompletedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PDF documents (*.pdf)|*.pdf.
         /// </summary>
         public static string MergeDialogFilter {
