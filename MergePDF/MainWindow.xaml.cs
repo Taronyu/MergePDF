@@ -2,9 +2,12 @@
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MergePDF
@@ -14,9 +17,19 @@ namespace MergePDF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly ObservableCollection<InputFile> inputFiles = new ObservableCollection<InputFile>();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            inputFiles.CollectionChanged += FileListChanged;
+            lstDocuments.ItemsSource = inputFiles;
+        }
+
+        private void FileListChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            btnMerge.IsEnabled = inputFiles.Count > 1;
         }
 
         private void AddDocuments(object sender, RoutedEventArgs e)
@@ -35,7 +48,7 @@ namespace MergePDF
                 foreach (string fname in dlg.FileNames)
                 {
                     InputFile file = new InputFile(fname);
-                    lstDocuments.Items.Add(file);
+                    inputFiles.Add(file);
                 }
             }
         }
@@ -44,15 +57,15 @@ namespace MergePDF
         {
             while (lstDocuments.SelectedIndex > -1)
             {
-                lstDocuments.Items.RemoveAt(lstDocuments.SelectedIndex);
+                inputFiles.RemoveAt(lstDocuments.SelectedIndex);
             }
         }
 
         private void SetButtonsEnabled(bool enabled)
         {
             btnAdd.IsEnabled = enabled;
-            btnRemove.IsEnabled = enabled;
-            btnMerge.IsEnabled = enabled;
+            btnRemove.IsEnabled = enabled && lstDocuments.SelectedIndex > -1;
+            btnMerge.IsEnabled = enabled && inputFiles.Count > 1;
             btnImport.IsEnabled = enabled;
         }
 
@@ -115,7 +128,7 @@ namespace MergePDF
                 finally
                 {
                     ++total;
-                    progress.Report(total / (double)lstDocuments.Items.Count);
+                    progress.Report(total / (double)inputFiles.Count);
                 }
             }
 
@@ -151,11 +164,20 @@ namespace MergePDF
                 {
                     SetButtonsEnabled(false);
 
-                    lstDocuments.Items.Clear();
+                    inputFiles.Clear();
 
                     pbStatus.IsIndeterminate = true;
                     await Task.Run(() => LoadFileNamesFromFile(dlg.FileName));
                     pbStatus.IsIndeterminate = false;
+
+                    if (inputFiles.Count > 0)
+                    {
+                        MessageBox.Show(string.Format(Properties.Resources.ImportFilesFound, inputFiles.Count), "Import", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show(Properties.Resources.NoFilesFound, "Import", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
                 }
             }
             finally
@@ -166,7 +188,6 @@ namespace MergePDF
 
         private void LoadFileNamesFromFile(string filename)
         {
-            int numFiles = 0;
             try
             {
                 using (StreamReader reader = new StreamReader(filename))
@@ -174,34 +195,22 @@ namespace MergePDF
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
-                        if (string.IsNullOrWhiteSpace(line))
+                        if (!string.IsNullOrWhiteSpace(line) && File.Exists(line))
                         {
-                            continue;
-                        }
-
-                        if (File.Exists(line))
-                        {
-                            ++numFiles;
-                            InputFile input = new InputFile(line);
-
-                            Dispatcher.Invoke(() => lstDocuments.Items.Add(input));
+                            Dispatcher.Invoke(() => inputFiles.Add(new InputFile(line)));
                         }
                     }
-                }
-
-                if (numFiles > 0)
-                {
-                    MessageBox.Show(string.Format(Properties.Resources.ImportFilesFound, numFiles), "Import", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show(Properties.Resources.NoFilesFound, "Import", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Properties.Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void ListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnRemove.IsEnabled = btnAdd.IsEnabled && lstDocuments.SelectedIndex > -1;
         }
     }
 }

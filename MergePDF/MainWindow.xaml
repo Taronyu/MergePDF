@@ -1,7 +1,7 @@
 ﻿<Window x:Class="MergePDF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MergePDF"
         xmlns:p="clr-namespace:MergePDF.Properties"
@@ -9,7 +9,6 @@
         Title="{x:Static p:Resources.Title}" Height="400" Width="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <local:StatusConverter x:Key="statusConverter" />
-        <local:IsEnabledConverter x:Key="enabledConverter" />
     </Window.Resources>
     <DockPanel Margin="5">
         <Grid DockPanel.Dock="Bottom" Margin="0,5">
@@ -27,12 +26,12 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Name="btnAdd" Content="{x:Static p:Resources.AddButton}" Click="AddDocuments" />
-            <Button Grid.Column="1" Name="btnRemove" Content="{x:Static p:Resources.RemoveButton}" Click="RemoveDocuments" IsEnabled="{Binding ElementName=lstDocuments, Path=SelectedItems.Count}" />
-            <Button Grid.Column="2" Name="btnMerge" Content="{x:Static p:Resources.MergeButton}" Click="PerformMerge" IsEnabled="{Binding ElementName=lstDocuments, Path=Items.Count, Converter={StaticResource enabledConverter}}" />
+            <Button Grid.Column="1" Name="btnRemove" Content="{x:Static p:Resources.RemoveButton}" Click="RemoveDocuments" IsEnabled="False" />
+            <Button Grid.Column="2" Name="btnMerge" Content="{x:Static p:Resources.MergeButton}" Click="PerformMerge" IsEnabled="False" />
             <Button Grid.Column="3" Name="btnImport" Content="{x:Static p:Resources.ImportButton}" Click="ImportFileList" />
             <ProgressBar Grid.Column="4" Name="pbStatus" Minimum="0" Maximum="1" Height="15" />
         </Grid>
-        <ListBox Name="lstDocuments" SelectionMode="Extended" HorizontalContentAlignment="Stretch" MouseDoubleClick="ListBoxDoubleClicked">
+        <ListBox Name="lstDocuments" SelectionMode="Extended" HorizontalContentAlignment="Stretch" MouseDoubleClick="ListBoxDoubleClicked" SelectionChanged="ListSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
