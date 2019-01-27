@@ -1,10 +1,10 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +18,7 @@ namespace MergePDF
     public partial class MainWindow : Window
     {
         private readonly ObservableCollection<InputFile> inputFiles = new ObservableCollection<InputFile>();
+        private readonly PdfMerger merger = new PdfMerger();
 
         public MainWindow()
         {
@@ -45,10 +46,9 @@ namespace MergePDF
 
             if (dlg.ShowDialog() == true)
             {
-                foreach (string fname in dlg.FileNames)
+                foreach (string name in dlg.FileNames)
                 {
-                    InputFile file = new InputFile(fname);
-                    inputFiles.Add(file);
+                    inputFiles.Add(new InputFile(name));
                 }
             }
         }
@@ -85,8 +85,10 @@ namespace MergePDF
                 if (dlg.ShowDialog() == true)
                 {
                     SetButtonsEnabled(false);
-                    IProgress<double> progress = new Progress<double>(percent => { pbStatus.Value = percent; });
-                    await Task.Run(() => ProcessFiles(dlg.FileName, progress));
+
+                    IEnumerable<InputFile> inputFiles = lstDocuments.Items.OfType<InputFile>();
+                    IProgress<int> progress = new Progress<int>(processed => { pbStatus.Value = processed / (double)lstDocuments.Items.Count; });
+                    await merger.MergeAsync(inputFiles, dlg.FileName, progress);
 
                     MessageBox.Show(this, Properties.Resources.MergeCompletedMessage, Properties.Resources.MergeCompletedTitle,
                         MessageBoxButton.OK, MessageBoxImage.Information);
@@ -95,44 +97,6 @@ namespace MergePDF
             finally
             {
                 SetButtonsEnabled(true);
-            }
-        }
-
-        private void ProcessFiles(string outputFile, IProgress<double> progress)
-        {
-            int processed = 0;
-            int total = 0;
-
-            using (FileStream stream = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write))
-            using (Document output = new Document())
-            using (PdfCopy copy = new PdfCopy(output, stream))
-            {
-                output.Open();
-
-                foreach (InputFile input in lstDocuments.Items)
-                {
-                    try
-                    {
-                        using (PdfReader reader = new PdfReader(input.Path))
-                        {
-                            copy.AddDocument(reader);
-                            copy.FreeReader(reader);
-                        }
-
-                        input.Status = InputFileStatus.OK;
-                        ++processed;
-                    }
-                    catch (Exception ex)
-                    {
-                        input.Exception = ex;
-                        input.Status = InputFileStatus.Error;
-                    }
-                    finally
-                    {
-                        ++total;
-                        progress.Report(total / (double)inputFiles.Count);
-                    }
-                }
             }
         }
 
@@ -202,7 +166,7 @@ namespace MergePDF
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Properties.Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, ex.Message, Properties.Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
