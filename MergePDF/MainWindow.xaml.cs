@@ -88,7 +88,7 @@ namespace MergePDF
                     IProgress<double> progress = new Progress<double>(percent => { pbStatus.Value = percent; });
                     await Task.Run(() => ProcessFiles(dlg.FileName, progress));
 
-                    MessageBox.Show(Application.Current.MainWindow, Properties.Resources.MergeCompletedMessage, Properties.Resources.MergeCompletedTitle,
+                    MessageBox.Show(this, Properties.Resources.MergeCompletedMessage, Properties.Resources.MergeCompletedTitle,
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -168,12 +168,12 @@ namespace MergePDF
 
                     if (inputFiles.Count > 0)
                     {
-                        MessageBox.Show(Application.Current.MainWindow, string.Format(Properties.Resources.ImportFilesFound, inputFiles.Count),
+                        MessageBox.Show(this, string.Format(Properties.Resources.ImportFilesFound, inputFiles.Count),
                             "Import", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show(Application.Current.MainWindow, Properties.Resources.NoFilesFound, "Import",
+                        MessageBox.Show(this, Properties.Resources.NoFilesFound, "Import",
                             MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
