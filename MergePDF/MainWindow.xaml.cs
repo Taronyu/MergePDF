@@ -1,6 +1,6 @@
-﻿using Microsoft.Win32;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -102,42 +102,37 @@ namespace MergePDF
             int processed = 0;
             int total = 0;
 
-            PdfDocument output = new PdfDocument();
-            foreach (InputFile input in lstDocuments.Items)
+            using (FileStream stream = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write))
+            using (Document output = new Document())
+            using (PdfCopy copy = new PdfCopy(output, stream))
             {
-                try
+                output.Open();
+
+                foreach (InputFile input in lstDocuments.Items)
                 {
-                    using (PdfDocument doc = PdfReader.Open(input.Path, PdfDocumentOpenMode.Import))
+                    try
                     {
-                        input.PageCount = doc.PageCount;
-
-                        for (int i = 0; i < input.PageCount; ++i)
+                        using (PdfReader reader = new PdfReader(input.Path))
                         {
-                            output.AddPage(doc.Pages[i]);
+                            copy.AddDocument(reader);
+                            copy.FreeReader(reader);
                         }
+
+                        input.Status = InputFileStatus.OK;
+                        ++processed;
                     }
-
-                    input.Status = InputFileStatus.OK;
-                    ++processed;
-                }
-                catch (Exception ex)
-                {
-                    input.Exception = ex;
-                    input.Status = InputFileStatus.Error;
-                }
-                finally
-                {
-                    ++total;
-                    progress.Report(total / (double)inputFiles.Count);
+                    catch (Exception ex)
+                    {
+                        input.Exception = ex;
+                        input.Status = InputFileStatus.Error;
+                    }
+                    finally
+                    {
+                        ++total;
+                        progress.Report(total / (double)inputFiles.Count);
+                    }
                 }
             }
-
-            if (processed > 0)
-            {
-                output.Save(outputFile);
-            }
-
-            output.Dispose();
         }
 
         private void ListBoxDoubleClicked(object sender, MouseButtonEventArgs e)
