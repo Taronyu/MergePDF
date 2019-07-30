@@ -1,5 +1,4 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
+﻿using iText.Kernel.Pdf;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,11 +24,10 @@ namespace MergePDF
             int processed = 0;
             int total = 0;
 
-            using (FileStream stream = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write))
-            using (Document output = new Document())
-            using (PdfCopy copy = new PdfCopy(output, stream))
+            using (PdfWriter writer = new PdfWriter(outputFile))
+            using (PdfDocument outputDoc = new PdfDocument(writer))
             {
-                output.Open();
+                outputDoc.InitializeOutlines();
 
                 foreach (InputFile input in inputFiles)
                 {
@@ -38,9 +36,10 @@ namespace MergePDF
                     try
                     {
                         using (PdfReader reader = new PdfReader(input.Path))
+                        using (PdfDocument inputDoc = new PdfDocument(reader))
                         {
-                            copy.AddDocument(reader);
-                            copy.FreeReader(reader);
+                            int numPages = inputDoc.GetNumberOfPages();
+                            inputDoc.CopyPagesTo(1, numPages, outputDoc);
                         }
 
                         input.Status = InputFileStatus.OK;
