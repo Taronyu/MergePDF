@@ -88,8 +88,7 @@ namespace MergePDF
                 {
                     SetButtonsEnabled(false);
 
-                    IEnumerable<InputFile> inputFiles = lstDocuments.Items.OfType<InputFile>();
-                    IProgress<int> progress = new Progress<int>(processed => { pbStatus.Value = processed / (double)lstDocuments.Items.Count; });
+                    IProgress<int> progress = new Progress<int>(processed => { pbStatus.Value = processed / (double)inputFiles.Count; });
                     await merger.MergeAsync(inputFiles, dlg.FileName, progress);
 
                     MessageBox.Show(this, Properties.Resources.MergeCompletedMessage, Properties.Resources.MergeCompletedTitle,

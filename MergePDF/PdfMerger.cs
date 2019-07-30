@@ -39,6 +39,8 @@ namespace MergePDF
                         using (PdfDocument inputDoc = new PdfDocument(reader))
                         {
                             int numPages = inputDoc.GetNumberOfPages();
+                            input.PageCount = numPages;
+
                             inputDoc.CopyPagesTo(1, numPages, outputDoc);
                         }
 
