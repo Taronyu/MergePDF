@@ -157,7 +157,8 @@ namespace MergePDF
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
-                        if (!string.IsNullOrWhiteSpace(line) && File.Exists(line))
+                        string ext = Path.GetExtension(line);
+                        if (string.Equals(".pdf", ext, StringComparison.OrdinalIgnoreCase))
                         {
                             Dispatcher.Invoke(() => inputFiles.Add(new InputFile(line)));
                         }
