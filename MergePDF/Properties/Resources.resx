@@ -148,7 +148,7 @@
     <value>Import file names</value>
   </data>
   <data name="ImportFilesFound" xml:space="preserve">
-    <value>{0} valid file names imported.</value>
+    <value>{0} file names imported.</value>
   </data>
   <data name="InputStatusError" xml:space="preserve">
     <value>Error</value>
@@ -173,6 +173,9 @@
   </data>
   <data name="MergeDialogTitle" xml:space="preserve">
     <value>Output file name</value>
+  </data>
+  <data name="MergeProgress" xml:space="preserve">
+    <value>{0} of {1} files processed.</value>
   </data>
   <data name="NoFilesFound" xml:space="preserve">
     <value>No valid filenames were found!</value>

@@ -88,7 +88,7 @@ namespace MergePDF
                 {
                     SetButtonsEnabled(false);
 
-                    IProgress<int> progress = new Progress<int>(processed => { pbStatus.Value = processed / (double)inputFiles.Count; });
+                    IProgress<int> progress = new Progress<int>(MergeProgressUpdate);
                     await merger.MergeAsync(inputFiles, dlg.FileName, progress);
 
                     MessageBox.Show(this, Properties.Resources.MergeCompletedMessage, Properties.Resources.MergeCompletedTitle,
@@ -99,6 +99,12 @@ namespace MergePDF
             {
                 SetButtonsEnabled(true);
             }
+        }
+
+        private void MergeProgressUpdate(int processed)
+        {
+            pbStatus.Value = processed / (double)inputFiles.Count;
+            txtFileCount.Text = string.Format(Properties.Resources.MergeProgress, processed, inputFiles.Count);
         }
 
         private void ListBoxDoubleClicked(object sender, MouseButtonEventArgs e)

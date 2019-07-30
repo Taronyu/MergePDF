@@ -151,7 +151,7 @@ namespace MergePDF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} valid file names imported..
+        ///   Looks up a localized string similar to {0} file names imported..
         /// </summary>
         public static string ImportFilesFound {
             get {
@@ -228,6 +228,15 @@ namespace MergePDF.Properties {
         public static string MergeDialogTitle {
             get {
                 return ResourceManager.GetString("MergeDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1} files processed..
+        /// </summary>
+        public static string MergeProgress {
+            get {
+                return ResourceManager.GetString("MergeProgress", resourceCulture);
             }
         }
         

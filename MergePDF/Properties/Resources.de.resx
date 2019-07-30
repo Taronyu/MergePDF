@@ -148,7 +148,7 @@
     <value>Import von Dateinamen</value>
   </data>
   <data name="ImportFilesFound" xml:space="preserve">
-    <value>{0} gültige Dateinamen importiert.</value>
+    <value>{0} Dateinamen importiert.</value>
   </data>
   <data name="InputStatusError" xml:space="preserve">
     <value>Fehler</value>
@@ -173,6 +173,9 @@
   </data>
   <data name="MergeDialogTitle" xml:space="preserve">
     <value>Ausgabedatei</value>
+  </data>
+  <data name="MergeProgress" xml:space="preserve">
+    <value>{0} von {1} Dateien verarbeitet.</value>
   </data>
   <data name="NoFilesFound" xml:space="preserve">
     <value>Es wurden keine gültigen Dateinamen gefunden!</value>
