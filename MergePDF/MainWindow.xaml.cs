@@ -30,7 +30,9 @@ namespace MergePDF
 
         private void FileListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            btnMerge.IsEnabled = inputFiles.Count > 1;
+            mniMerge.IsEnabled = inputFiles.Count > 1;
+
+            txtFileCount.Text = string.Format(Properties.Resources.FileListCount, inputFiles.Count);
         }
 
         private void AddDocuments(object sender, RoutedEventArgs e)
@@ -63,10 +65,10 @@ namespace MergePDF
 
         private void SetButtonsEnabled(bool enabled)
         {
-            btnAdd.IsEnabled = enabled;
-            btnRemove.IsEnabled = enabled && lstDocuments.SelectedIndex > -1;
-            btnMerge.IsEnabled = enabled && inputFiles.Count > 1;
-            btnImport.IsEnabled = enabled;
+            mniMerge.IsEnabled = enabled;
+            mniRemove.IsEnabled = enabled && lstDocuments.SelectedIndex > -1;
+            mniMerge.IsEnabled = enabled && inputFiles.Count > 1;
+            mniImport.IsEnabled = enabled;
         }
 
         private async void PerformMerge(object sender, RoutedEventArgs e)
@@ -173,7 +175,12 @@ namespace MergePDF
 
         private void ListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            btnRemove.IsEnabled = btnAdd.IsEnabled && lstDocuments.SelectedIndex > -1;
+            mniRemove.IsEnabled = mniAdd.IsEnabled && lstDocuments.SelectedIndex > -1;
+        }
+
+        private void ExitApplication(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

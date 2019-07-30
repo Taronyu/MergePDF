@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddButton" xml:space="preserve">
-    <value>Hinzufügen</value>
+    <value>_Hinzufügen</value>
   </data>
   <data name="AddDialogFilter" xml:space="preserve">
     <value>PDF Dokumente (*.pdf)|*.pdf</value>
@@ -129,8 +129,17 @@
   <data name="ErrorTitle" xml:space="preserve">
     <value>Fehler</value>
   </data>
+  <data name="ExitButton" xml:space="preserve">
+    <value>_Beenden</value>
+  </data>
+  <data name="FileButton" xml:space="preserve">
+    <value>_Datei</value>
+  </data>
+  <data name="FileListCount" xml:space="preserve">
+    <value>{0} Dateien in der Warteschlange.</value>
+  </data>
   <data name="ImportButton" xml:space="preserve">
-    <value>Import</value>
+    <value>Aus CSV-Datei _importieren</value>
   </data>
   <data name="ImportDialogFilter" xml:space="preserve">
     <value>CSV-Dateien (*.csv)|*.csv|Textdateien (*.txt)|*.txt</value>
@@ -151,7 +160,7 @@
     <value>Neu</value>
   </data>
   <data name="MergeButton" xml:space="preserve">
-    <value>Zusammenführen</value>
+    <value>_Zusammenführen</value>
   </data>
   <data name="MergeCompletedMessage" xml:space="preserve">
     <value>Zusammenführen abgeschlossen.</value>
@@ -169,7 +178,7 @@
     <value>Es wurden keine gültigen Dateinamen gefunden!</value>
   </data>
   <data name="RemoveButton" xml:space="preserve">
-    <value>Entfernen</value>
+    <value>_Entfernen</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>MergePDF</value>

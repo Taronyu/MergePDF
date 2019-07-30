@@ -11,26 +11,35 @@
         <local:StatusConverter x:Key="statusConverter" />
     </Window.Resources>
     <DockPanel Margin="5">
-        <Grid DockPanel.Dock="Bottom" Margin="0,5">
-            <Grid.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0,0,10,0" />
-                    <Setter Property="Padding" Value="10,5" />
-                </Style>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Name="btnAdd" Content="{x:Static p:Resources.AddButton}" Click="AddDocuments" />
-            <Button Grid.Column="1" Name="btnRemove" Content="{x:Static p:Resources.RemoveButton}" Click="RemoveDocuments" IsEnabled="False" />
-            <Button Grid.Column="2" Name="btnMerge" Content="{x:Static p:Resources.MergeButton}" Click="PerformMerge" IsEnabled="False" />
-            <Button Grid.Column="3" Name="btnImport" Content="{x:Static p:Resources.ImportButton}" Click="ImportFileList" />
-            <ProgressBar Grid.Column="4" Name="pbStatus" Minimum="0" Maximum="1" Height="15" />
-        </Grid>
+        <Menu DockPanel.Dock="Top" Name="mainMenu" Padding="0,5">
+            <MenuItem Name="mniFile" Header="{x:Static p:Resources.FileButton}">
+                <MenuItem Name="mniAdd" Header="{x:Static p:Resources.AddButton}"  Click="AddDocuments" />
+                <MenuItem Name="mniRemove" Header="{x:Static p:Resources.RemoveButton}" Click="RemoveDocuments" IsEnabled="False" />
+                <MenuItem Name="mniImport" Header="{x:Static p:Resources.ImportButton}" Click="ImportFileList" />
+                <Separator />
+                <MenuItem Name="mniMerge" Header="{x:Static p:Resources.MergeButton}" Click="PerformMerge" IsEnabled="False" />
+                <Separator />
+                <MenuItem Name="mniExit" Header="{x:Static p:Resources.ExitButton}" Click="ExitApplication"  />
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom" Name="stbMain">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem>
+                <TextBlock Name="txtFileCount" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <ProgressBar Name="pbStatus" Minimum="0" Maximum="1" Height="15" Width="100" />
+            </StatusBarItem>
+        </StatusBar>
         <ListBox Name="lstDocuments" SelectionMode="Extended" HorizontalContentAlignment="Stretch" MouseDoubleClick="ListBoxDoubleClicked" SelectionChanged="ListSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>

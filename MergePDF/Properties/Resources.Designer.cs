@@ -61,7 +61,7 @@ namespace MergePDF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add.
+        ///   Looks up a localized string similar to _Add.
         /// </summary>
         public static string AddButton {
             get {
@@ -97,7 +97,34 @@ namespace MergePDF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Import.
+        ///   Looks up a localized string similar to E_xit.
+        /// </summary>
+        public static string ExitButton {
+            get {
+                return ResourceManager.GetString("ExitButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _File.
+        /// </summary>
+        public static string FileButton {
+            get {
+                return ResourceManager.GetString("FileButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} files pending..
+        /// </summary>
+        public static string FileListCount {
+            get {
+                return ResourceManager.GetString("FileListCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Import from CSV file.
         /// </summary>
         public static string ImportButton {
             get {
@@ -160,7 +187,7 @@ namespace MergePDF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Merge.
+        ///   Looks up a localized string similar to _Merge.
         /// </summary>
         public static string MergeButton {
             get {
@@ -214,7 +241,7 @@ namespace MergePDF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove.
+        ///   Looks up a localized string similar to _Remove.
         /// </summary>
         public static string RemoveButton {
             get {
