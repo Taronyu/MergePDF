@@ -266,5 +266,14 @@ namespace MergePDF.Properties {
                 return ResourceManager.GetString("Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Tools.
+        /// </summary>
+        public static string ToolsButton {
+            get {
+                return ResourceManager.GetString("ToolsButton", resourceCulture);
+            }
+        }
     }
 }

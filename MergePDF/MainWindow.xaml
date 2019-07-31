@@ -17,9 +17,10 @@
                 <MenuItem Name="mniRemove" Header="{x:Static p:Resources.RemoveButton}" Click="RemoveDocuments" IsEnabled="False" />
                 <MenuItem Name="mniImport" Header="{x:Static p:Resources.ImportButton}" Click="ImportFileList" />
                 <Separator />
-                <MenuItem Name="mniMerge" Header="{x:Static p:Resources.MergeButton}" Click="PerformMerge" IsEnabled="False" />
-                <Separator />
                 <MenuItem Name="mniExit" Header="{x:Static p:Resources.ExitButton}" Click="ExitApplication"  />
+            </MenuItem>
+            <MenuItem Name="mniTools" Header="{x:Static p:Resources.ToolsButton}">
+                <MenuItem Name="mniMerge" Header="{x:Static p:Resources.MergeButton}" Click="PerformMerge" IsEnabled="False" />
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Name="stbMain">
